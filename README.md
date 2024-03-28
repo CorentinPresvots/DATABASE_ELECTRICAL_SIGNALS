@@ -2,16 +2,17 @@
 
 > **Citation:**
 >
-> @online{DatabaseRTE 
+> @online{DatabaseRTE, 
 > author = {Presvôts, Corentin},  
 > title = {Database of Voltage and Current Samples Values from the French Electricity Transmission Grid, Réseau de Transport d'Electricité (RTE), France},
 > url = {https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS},
-> year = {2024},  
+> year = {2024},
 > }
+> 
 
 # Voltages and Current Database, DATA_S
 
-This database comprises 5008 measured voltage and current waveform signals (phase-ground) on high voltage lines of the French electricity transmission network during various faults. The nominal voltage is 90 kV.
+This database comprises 5008 measured voltage and current waveform signals (phase-ground) on high voltage lines of the French electricity transmission grid during various faults. The nominal voltage is 90 kV.
 
 
 ## Signal Characteristics
