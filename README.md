@@ -1,97 +1,155 @@
-# Multiple-Model Coding (MMC) Scheme
+# Electrical Signals Databases
 
 > **Citation:**
 >
-> @article{PresvotsMMC2023  
-> author = {Presvôts, Corentin and Kieffer, Michel and Prevost, Thibault and Panciatici, Patrick and Li, Zuxing and Piantanida, Pablo},  
-> title = {Multiple-Model Coding Scheme for Electrical Signal Compression},  
-> year = {2023},  
-> note = {Available at SSRN: [https://ssrn.com/abstract=4584757](https://ssrn.com/abstract=4584757) or [http://dx.doi.org/10.2139/ssrn.4584757](http://dx.doi.org/10.2139/ssrn.4584757)}  
+> @online{DatabaseRTE 
+> author = {Presvôts, Corentin},  
+> title = {Database of Voltage and Current Samples Values from the French Electricity Transmission Grid, Réseau de Transport d'Electricité (RTE), France},
+> url = {https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS},
+> year = {2024},  
 > }
 
+# Voltages and Current Database, DATA_S
+
+This database comprises 5008 measured voltage and current waveform signals (phase-ground) on high voltage lines of the French electricity transmission network during various faults. The nominal voltage is 90 kV.
+
+
+## Signal Characteristics
+All signals are stored in a list DATA_S of shape (8222,6,21000)
+
+Where 508 represents the number of observed faults
+
+6 is the number of signals per observed fault (v1, v2, v3, i1, i2, i3)
+
+21000 is the number of samples per signal
+
+The nominal frequency of the network is 50 Hz
+
+
+## Sample Characteristics
+The sampling frequency is 6400 Hz
+
+The number of bits to encode a sample is 19 bits
+
+Quantization levels range from -32767 to 32767, or 19 bits
+
+The quantization step for voltage signals is 18.310550000000003 V per level
+
+The quantization step for current signals is 4.3140030000000005 A per level
+
+## Examples of Observed Voltage and Current Signals
+
+### Signal 1 
+![Figure 2024-03-28 151843](https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/707b2a46-0d82-4682-8038-a871d2904120)
+![Figure 2024-03-28 151848](https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/4a006b14-e3d1-44e0-9221-fc79b8168607)
+### Signal 2 
+![Figure 2024-03-28 151720](https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/281f124b-3976-4048-9c48-01226a7c291a)
+![Figure 2024-03-28 151727](https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/697742c5-aaef-48da-a524-c2eeea8c22e1)
+### Signal 3 
+![Figure 2024-03-28 132920](https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/ebfea83c-2ada-4dc0-89ed-a6ee5585e4c5)
+![Figure 2024-03-28 132927](https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/d3b8d152-09ca-4851-a213-67cf47b71fdd)
+
+# Transient Signals Databases, DATA_u and DATA_i
+
+The lists DATA_u and DATA_i are two databases of voltage and current signals respectively obtained from DATA_S.
+
+DATA_u and DATA_i contain 10100 signals of size 128 samples, corresponding to one period of the nominal frequency of the network at 50 Hz.
+
+To obtain DATA_u and DATA_i, a scan of all signals in DATA_S is performed. For each voltage signal in DATA_S, a temporal segmentation is performed, dividing each voltage signal into signals of size 128 samples.
+
+A transient selection criterion is applied to each 128-sample signal.
+
+The window is kept if:
+
+- the standard deviation of the signal is greater than 100 times the quantization step (to remove windows where the signal amplitude changes little)
+- if the mean absolute value of the signal is greater than 2000 V (to remove all periodic signals such as harmonics)
+
+If the 128 voltage samples are retained, the 128 current samples are also retained.
+DATA_u[k] and DATA_i[k] are therefore derived from the observation of the same conductor.
+
+## Examples of Recovered Transient Voltage Signals
+
+<table>
+  <tr>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/07f4098b-52aa-4f8e-9853-fd0682fd5d61" alt="Image1" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/42db26ee-cd6c-434f-996a-a063e7b4ae02" alt="Image2" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/5d140e7c-8875-4b7c-9d5b-ad6eef07bb1b" alt="Image3" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/2e1996d8-5e97-4d94-a78a-b7e1f86b0fce" alt="Image4" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/521be535-9d22-4efd-8604-fd4c8ac2269a" alt="Image5" width="200"></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/3945924e-46f2-491b-8194-2705ded99cac" alt="Image4" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/9ba41826-f494-48c2-b44e-6fcf61e13682" alt="Image6" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/fdf4bbec-93ed-4b3c-99e9-a6e73e8e0c6a" alt="Image7" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/287a2b8a-47ad-4fff-bf34-b2e5e03c22ab" alt="Image8" width="200"></td>
+    <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/138e2a04-2a7a-4e28-8e7e-ff95339ae1e9" alt="Image5" width="200"></td>
+  </tr>
+  <tr>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/24cbc12a-a2e0-4ab7-9976-9e10b7c3ef2a" alt="Image4" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/3324fb4e-c81d-451e-aeee-e43792299ce8" alt="Image6" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/3ae1e49f-b452-4812-bea1-22409525a4dd" alt="Image7" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/7bfd395c-0a41-4c68-b832-345bdd5f0b30" alt="Image8" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/ebd51acd-dbcb-4459-924e-5ce1cadcdd8a" alt="Image5" width="200"></td>
+  </tr>
+  <tr>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/abe2a86b-fb72-44d6-8cc2-3ee1350442a3" alt="Image4" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/dbaa119f-2479-45ba-a9c5-18743ea1a373" alt="Image6" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/385e5fdc-bbca-43ed-bc00-9c4558bed42c" alt="Image7" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/9feffb5d-67a0-4077-9882-2fd289212ad6" alt="Image8" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/3aafe378-d8b1-42e1-8d38-0cd735aa7a82" alt="Image5" width="200"></td>
+  </tr>
+  <tr>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/3cd01edd-cca7-4a6f-b086-618c7a7c59dd" alt="Image4" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/17738dd3-b859-441b-a743-d935cde72c7c" alt="Image6" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/4fcd78c1-cdd0-4847-8a6a-f64bf307243d" alt="Image7" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/99689b8f-830d-4473-a527-679a8ef7ec04" alt="Image8" width="200"></td>
+  <td><img src="https://github.com/CorentinPresvots/DATABASE_ELECTRICAL_SIGNALS/assets/144250214/cd914add-ee09-418a-84e4-d9d77289ec39" alt="Image5" width="200"></td>
+  </tr>
+</table>
+
+## Download DATA_u, DATA_i, and DATA_S Databases
+Download the txt files DATA_S, DATA_u and DATA_i. 
+
+Space required to download the databases :
+
+DATA_S.txt : 
+
+DATA_u.txt :
+
+DATA_i.txt : 
+
+then with python run
+
+
+    DATA_S_load = np.loadtxt('DATA_S.txt').reshape((len(DATA_S), 6, 21000)) # Load DATA_S from the text file 
+    DATA_u_load = np.loadtxt('DATA_u.txt') #  Load DATA_u from the text file
+    DATA_i_load = np.loadtxt('DATA_i.txt') # Load DATA_i from the text file
+
+
+    ## test 
+    print("DATA_S_load",np.shape(DATA_S_load))
+    print("DATA_u_load",np.shape(DATA_u_load))
+    print("DATA_i_load",np.shape(DATA_i_load))
   
-This code proposes a low-latency Multiple-Model Coding approach to compress sampled electrical signal
-waveforms under encoding rate constraints. The approach is window-based. Several parametric waveform models
-are put in competition to obtain a first coarse representation of the signal in each considered window. Then, different
-residual compression techniques are compared to minimize the residual reconstruction error. The model parameters
-are quantized, and the allocation of the rate budget among the two steps is optimized.
-
-Article is available at: [MMC](https://www.researchgate.net/publication/374226674_Multiple-Model_Coding_Scheme_for_Electrical_Signal_Compression)
-
-## Stage 1: The various competing models include
-
-
-- **No model**
-  - (none)
-
-- **Sinusoidal models**
-  - (sin-1): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\left(\frac{a-0.75}{0.25},\frac{f-f_\text{n}}{0.2},\frac{\phi}{\pi}\right);\left[-1,1 \right]^3\right)$ 
-  - (sin-2): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\left(\frac{a-0.75}{0.25},\frac{f-f_\text{n}}{0.05},\frac{\phi}{\pi}\right);\left[-1,1 \right]^3\right)$
-
-
-- **Polynomial models of order 0 to 8. Mean value of $\boldsymbol{\theta}$ is assumed to be zeros.**  
-  - (poly-0): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{1}\right)$
-  - (poly-1): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{2}\right)$
-  - (poly-2): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{3}\right)$
-  - (poly-3): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{4}\right)$
-  - (poly-4): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{5}\right)$
-  - (poly-5): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{6}\right)$
-  - (poly-6): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{7}\right)$
-  - (poly-7): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{8}\right)$
-  - (poly-8): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\boldsymbol{\theta};\left[-1,1\right]^{9}\right)$
-
-- **Parameter predictive models. Mean value of $\boldsymbol{\theta}$ is assumed to be zeros. $i$: index of current window**
-  - (pred para-2): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(2\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
-  - (pred para-5): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(5\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
-  - (pred para-10): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(10\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
-  - (pred para-50): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(50\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
-  - (pred para-100): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(100\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
-  - (pred para-500): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(500\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
-  - (pred para-1000): $p_{\boldsymbol{\theta}}=\mathcal{U}\left(1000\left(\boldsymbol{\theta}-\boldsymbol{\theta}^{i-1}\right);\left[-1,1\right]^{\text{dim}\left(\boldsymbol{\theta}^{i-1}\right)}\right)$
- 
-    
-- **Sample predictive models. Mean value $\mathbb{E}\left[\boldsymbol{\theta}\right]$ is estimated depending of previous encoded window**
-  - (pred samples-1-0): $N_p=1$, $\eta=0$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{0.1};\left[-1,1\right]^{1}\right)$
-  - (pred samples-1-1): $N_p=1$, $\eta=1$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{0.1};\left[-1,1\right]^{1}\right)$
-  - (pred samples-2-0): $N_p=2$, $\eta=0$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{0.3};\left[-1,1\right]^{2}\right)$
-  - (pred samples-2-1): $N_p=2$, $\eta=1$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{0.3};\left[-1,1\right]^{2}\right)$
-  - (pred samples-3-0): $N_p=3$, $\eta=0$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{0.5};\left[-1,1\right]^{3}\right)$
-  - (pred samples-3-1): $N_p=3$, $\eta=1$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{0.5};\left[-1,1\right]^{3}\right)$
-  - (pred samples-4-0): $N_p=4$, $\eta=0$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{1.5};\left[-1,1\right]^{4}\right)$
-  - (pred samples-4-1): $N_p=4$, $\eta=1$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{1.5};\left[-1,1\right]^{4}\right)$
-  - (pred samples-5-0): $N_p=5$, $\eta=0$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{1.5};\left[-1,1\right]^{5}\right)$
-  - (pred samples-5-1): $N_p=5$, $\eta=1$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{1.5};\left[-1,1\right]^{5}\right)$
-  - (pred samples-6-0): $N_p=6$, $\eta=0$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{1.5};\left[-1,1\right]^{6}\right)$
-  - (pred samples-6-1): $N_p=6$, $\eta=1$, $p_{\boldsymbol{\theta}}=\mathcal{U}\left(\frac{\boldsymbol{\theta}-\mathbb{E}\left[\boldsymbol{\theta}\right]}{1.5};\left[-1,1\right]^{6}\right)$
-              - 
-## Stage 2: The different competing residual compression methods are:
-
-- Antonini's method (DCT+BPC)
-
-
-- Khan's method (DWT+BPC)
-
-
-
-# main.py
-The main file will compress a 2-second reference signal:
-
-A single-phase voltage signal recorded on the RTE network is considered. This signal was sampled at
-6400 Hz (128 samples per nominal frequency period fn = 50 Hz) and consists of 12800 samples, see (link to the signal). The window size is set to 128 samples.
-
-- The size of each window is set to N=128 samples (can be modified in the main).
-
-
-- The number of coded windows is 12800/N.
-
-
-- The maximum bit rate to encode each window is b_tot (can be modified in the main).
-
-The main file performs compression for each window; the encoder takes the samples and the b_tot bit rate as input and returns the binary frame corresponding to the compressed window signal on b_tot bits.
-From this binary frame, the decoder reconstructs the signal.
-
-
-
+    for k in range(10):
+        fig=plt.figure(figsize=(15,5),dpi=100)
+        for i in range(3):
+            plt.plot(t,DATA_S_load[k][i]*18.310550000000003,lw=2,label='v{}'.format(i+1))
+            plt.xlabel('t [s]')
+            plt.ylabel('Voltage (V)')
+            plt.grid( which='major', color='#666666', linestyle='-')
+            plt.legend()
+            plt.minorticks_on()
+            
+        fig=plt.figure(figsize=(15,5),dpi=100)
+        for i in range(3):            
+            plt.plot(t,DATA_S_load[k][i+3]4.3140030000000005,lw=2,label='i{}'.format(i+1))
+            plt.xlabel('t [s]')
+            plt.ylabel('Courrent (A)')
+            plt.grid( which='major', color='#666666', linestyle='-')
+            plt.legend()
+            plt.minorticks_on()   
+            
 # Prerequisites
 
 - numpy
@@ -100,13 +158,3 @@ From this binary frame, the decoder reconstructs the signal.
 - matplotlib.pyplot
 
 
-- accumulate from the itertools library
-
-
-- dct, idct from the scipy.fftpack library
-
-
-- pywt
-
-
-- fsolve from the scipy.optimize library
