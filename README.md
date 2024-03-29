@@ -32,9 +32,9 @@ The nominal voltage is 90 kV
 ## Sample Characteristics
 The sampling frequency is 6400 Hz
 
-The number of bits to encode a sample is 19 bits
+The number of bits to encode a sample is 16 bits
 
-Quantization levels range from -32767 to 32767, or 19 bits
+Quantization levels range from -32767 to 32767, or 16 bits
 
 The quantization step size for voltage signals is 18.310550000000003V per level
 
