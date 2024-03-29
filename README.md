@@ -22,7 +22,7 @@ Where 12066  represents the number of observed faults
 
 6 is the number of signals per observed fault (v1, v2, v3, i1, i2, i3)
 
-21000 is the number of samples per signal
+21000 is the number of samples per signal (3.28125s)
 
 The nominal frequency of the network is 50 Hz
 
