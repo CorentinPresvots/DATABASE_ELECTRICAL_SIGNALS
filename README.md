@@ -16,7 +16,7 @@ This database comprises 5008 measured voltage and current waveform signals (phas
 
 
 ## Signal Characteristics
-All signals are stored in a list DATA_S of shape (12066,6,21000)
+All signals are stored in a list DATA_S of shape (12066, 6, 21000)
 
 Where 12066  represents the number of observed faults
 
@@ -122,7 +122,7 @@ DATA_i.txt : 13 MB
 then with python run
 
 
-    DATA_S_load = np.loadtxt('DATA_S.txt').reshape((len(DATA_S), 6, 21000)) # Load DATA_S from the text file 
+    DATA_S_load = np.loadtxt('DATA_S.txt').reshape((12066, 6, 21000)) # Load DATA_S from the text file 
     DATA_u_load = np.loadtxt('DATA_u.txt') #  Load DATA_u from the text file
     DATA_i_load = np.loadtxt('DATA_i.txt') # Load DATA_i from the text file
 
