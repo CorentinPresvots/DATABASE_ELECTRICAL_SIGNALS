@@ -133,12 +133,13 @@ then with python run
     print("DATA_S_load",np.shape(DATA_S_load))
     print("DATA_u_load",np.shape(DATA_u_load))
     print("DATA_i_load",np.shape(DATA_i_load))
-  
+
+    t=np.linspace(0,(21000-1)/6400,21000)
     for k in range(10):
         fig=plt.figure(figsize=(15,5),dpi=100)
         for i in range(3):
             plt.plot(t,DATA_S_load[k][i]*18.310550000000003,lw=2,label='v{}'.format(i+1))
-            plt.xlabel('t [s]')
+            plt.xlabel('t (s)')
             plt.ylabel('Voltage (V)')
             plt.grid( which='major', color='#666666', linestyle='-')
             plt.legend()
@@ -146,8 +147,8 @@ then with python run
             
         fig=plt.figure(figsize=(15,5),dpi=100)
         for i in range(3):            
-            plt.plot(t,DATA_S_load[k][i+3]4.3140030000000005,lw=2,label='i{}'.format(i+1))
-            plt.xlabel('t [s]')
+            plt.plot(t,DATA_S_load[k][i+3]*4.3140030000000005,lw=2,label='i{}'.format(i+1))
+            plt.xlabel('t (s)')
             plt.ylabel('Courrent (A)')
             plt.grid( which='major', color='#666666', linestyle='-')
             plt.legend()
