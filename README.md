@@ -16,9 +16,9 @@ This database comprises 5008 measured voltage and current waveform signals (phas
 
 
 ## Signal Characteristics
-All signals are stored in a list DATA_S of shape (8222,6,21000)
+All signals are stored in a list DATA_S of shape (12066,6,21000)
 
-Where 508 represents the number of observed faults
+Where 12066  represents the number of observed faults
 
 6 is the number of signals per observed fault (v1, v2, v3, i1, i2, i3)
 
@@ -54,7 +54,7 @@ The quantization step for current signals is 4.3140030000000005 A per level
 
 The lists DATA_u and DATA_i are two databases of voltage and current signals respectively obtained from DATA_S.
 
-DATA_u and DATA_i contain 10100 signals of size 128 samples, corresponding to one period of the nominal frequency of the network at 50 Hz.
+DATA_u and DATA_i contain 30000 signals of size 128 samples, corresponding to one period of the nominal frequency of the network at 50 Hz.
 
 To obtain DATA_u and DATA_i, a scan of all signals in DATA_S is performed. For each voltage signal in DATA_S, a temporal segmentation is performed, dividing each voltage signal into signals of size 128 samples.
 
@@ -113,11 +113,11 @@ Download the txt files DATA_S, DATA_u and DATA_i.
 
 Space required to download the databases :
 
-DATA_S.txt : 
+DATA_S.txt : 7.9 GB 
 
-DATA_u.txt :
+DATA_u.txt : 20 MB
 
-DATA_i.txt : 
+DATA_i.txt : 13 MB
 
 then with python run
 
