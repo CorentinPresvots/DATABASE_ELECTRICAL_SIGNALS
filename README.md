@@ -12,7 +12,7 @@
 
 # Voltages and Current Database, DATA_S
 
-This database comprises 5008 measured voltage and current waveform signals (phase-ground) on high voltage lines of the French electricity transmission grid during various faults. The nominal voltage is 90 kV.
+This database comprises 12066 measured voltage and current waveform signals (phase-ground) on high voltage lines of the French electricity transmission grid during various faults. 
 
 
 ## Signal Characteristics
@@ -26,6 +26,8 @@ Where 12066  represents the number of observed faults
 
 The nominal frequency of the network is 50 Hz
 
+The nominal voltage is 90 kV
+
 
 ## Sample Characteristics
 The sampling frequency is 6400 Hz
@@ -34,9 +36,9 @@ The number of bits to encode a sample is 19 bits
 
 Quantization levels range from -32767 to 32767, or 19 bits
 
-The quantization step for voltage signals is 18.310550000000003 V per level
+The quantization step size for voltage signals is 18.310550000000003V per level
 
-The quantization step for current signals is 4.3140030000000005 A per level
+The quantization step size for current signals is 4.3140030000000005A per level
 
 ## Examples of Observed Voltage and Current Signals
 
