@@ -11,7 +11,7 @@
 > 
 
 # Voltages and Current Database, DATA_S
-
+ 
 This database comprises 12066 measured voltage and current waveform signals (phase-ground) on high voltage lines of the French electricity transmission grid during various faults. 
 
 
@@ -36,9 +36,9 @@ The number of bits to encode a sample is 16 bits
 
 Quantization levels range from -32767 to 32767, or 16 bits
 
-The quantization step size for voltage signals is 18.310550000000003V per level
+The quantization step size for voltage signals is 18.310 V per level
 
-The quantization step size for current signals is 4.3140030000000005A per level
+The quantization step size for current signals is 4.314 A per level
 
 ## Examples of Observed Voltage and Current Signals
 
@@ -115,20 +115,20 @@ Download the txt files DATA_S, DATA_u and DATA_i.
 
 Space required to download the databases :
 
-DATA_S.txt : 7.9 GB 
+DATA_S.txt : 2 GB 
 
-DATA_u.txt : 20 MB
+DATA_u.txt : 10 MB
 
-DATA_i.txt : 13 MB
+DATA_i.txt : 5 MB
 
 then with python run
 
 
-    DATA_S_load = np.loadtxt('DATA_S.txt').reshape((12066, 6, 21000)) # Load DATA_S from the text file 
-    DATA_u_load = np.loadtxt('DATA_u.txt') #  Load DATA_u from the text file
-    DATA_i_load = np.loadtxt('DATA_i.txt') # Load DATA_i from the text file
-
-
+    DATA_S_load = np.load('DATA_u.npz')['DATA_S'] # Load DATA_S from the npz file 
+    DATA_u_load = np.load('DATA_u.npz')['DATA_u'] #  Load DATA_u from the npz file
+    DATA_i_load = np.load('DATA_i.npz')['DATA_i'] # Load DATA_i from the npz file
+    
+    
     ## test 
     print("DATA_S_load",np.shape(DATA_S_load))
     print("DATA_u_load",np.shape(DATA_u_load))
@@ -138,7 +138,7 @@ then with python run
     for k in range(10):
         fig=plt.figure(figsize=(15,5),dpi=100)
         for i in range(3):
-            plt.plot(t,DATA_S_load[k][i]*18.310550000000003,lw=2,label='v{}'.format(i+1))
+            plt.plot(t,DATA_S_load[k][i]*18.310,lw=2,label='v{}'.format(i+1))
             plt.xlabel('t (s)')
             plt.ylabel('Voltage (V)')
             plt.grid( which='major', color='#666666', linestyle='-')
@@ -147,7 +147,7 @@ then with python run
             
         fig=plt.figure(figsize=(15,5),dpi=100)
         for i in range(3):            
-            plt.plot(t,DATA_S_load[k][i+3]*4.3140030000000005,lw=2,label='i{}'.format(i+1))
+            plt.plot(t,DATA_S_load[k][i+3]*4.314,lw=2,label='i{}'.format(i+1))
             plt.xlabel('t (s)')
             plt.ylabel('Courrent (A)')
             plt.grid( which='major', color='#666666', linestyle='-')
