@@ -18,15 +18,15 @@ This database comprises 12066 measured voltage and current waveform signals (pha
 ## Signal Characteristics
 All signals are stored in a list DATA_S of shape (12066, 6, 21000)
 
-Where 12066  represents the number of observed faults
+- 12066  number of observed faults
 
-6 is the number of signals per observed fault (v1, v2, v3, i1, i2, i3)
+- 6 signals per observed fault (v1, v2, v3, i1, i2, i3)
 
-21000 is the number of samples per signal (3.28125s)
+- 21000 samples per signal (3.28125s)
 
-The nominal frequency of the network is 50 Hz
+- Nominal frequency of the network 50 Hz
 
-The nominal voltage is 90 kV
+- nominal voltage 90 kV
 
 
 ## Sample Characteristics
@@ -124,7 +124,7 @@ DATA_i.txt : 5 MB
 then with python run
 
 
-    DATA_S_load = np.load('DATA_u.npz')['DATA_S'] # Load DATA_S from the npz file 
+    DATA_S_load = np.load('DATA_S.npz')['DATA_S'] # Load DATA_S from the npz file 
     DATA_u_load = np.load('DATA_u.npz')['DATA_u'] #  Load DATA_u from the npz file
     DATA_i_load = np.load('DATA_i.npz')['DATA_i'] # Load DATA_i from the npz file
     
